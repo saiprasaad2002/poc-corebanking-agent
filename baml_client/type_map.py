@@ -31,8 +31,17 @@ type_map = {
     "types.Parameters": types.Parameters,
     "stream_types.Parameters": stream_types.Parameters,
 
+    "types.Response": types.Response,
+    "stream_types.Response": stream_types.Response,
+
     "types.Resume": types.Resume,
     "stream_types.Resume": stream_types.Resume,
+
+    "types.Route": types.Route,
+    "stream_types.Route": stream_types.Route,
+
+    "types.SqlQuery": types.SqlQuery,
+    "stream_types.SqlQuery": stream_types.SqlQuery,
 
     "types.Toolvalidation": types.Toolvalidation,
     "stream_types.Toolvalidation": stream_types.Toolvalidation,

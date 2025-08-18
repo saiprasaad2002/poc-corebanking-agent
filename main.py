@@ -6,12 +6,11 @@ from tool_fetch import fetch_tools_and_description
 from baml_client import b
 from tools import get_gl_balance,get_loan_balance,get_car_ratio
 from dotenv import load_dotenv
-from md_document import return_markdown 
+from md_document import return_markdown
+from db import execute_query
 load_dotenv()
 
 app = FastAPI()
-
-#send a document to the websocket endpoint
 
 
 @app.websocket("/chat")
@@ -39,61 +38,45 @@ async def chat(websocket: WebSocket):
                 continue
             else:
                 memory['intent_check'] = True
-                # allowed_tools_and_description = await fetch_tools_and_description()
-                # allowed_tools = list(allowed_tools_and_description.keys())
-                # allowed_tools_description = list(allowed_tools_and_description.values())
-                # memory['tools_allowed'] = allowed_tools
-                # validation = b.ValidateToolCalling(user_question, allowed_tools, allowed_tools_description,user_role)
-                # if not validation.valid:
-                #     await websocket.send_text("Tool calling validation failed. Please try again.")
-                #     memory['tool_validation'] = False
-                #     continue
-                # else:
-                #     memory['tool_validation'] = True
-                #     tool_names:list = validation.tool_name
-                #     memory['tools_called'] = [tool_name for tool_name in tool_names]
-                #     description:list = validation.description
-                #     memory['tools_description'] = description
-                document_path = "multipleratio2.docx"
-                markdown_document = return_markdown(document_path)
-                relevant_response = b.FetchResults(user_question,markdown_document)
-                components = {}
-                for key, value in relevant_response.components.items():
-                    # value is a list of ComponentDetail objects
-                    components[key] = [
-                        {
-                            "source": val.source,
-                            "crieteria": val.crieteria,
-                            "risk": val.risk
+                route = b.DefineRoute(user_question)
+                if route.tool.lower() == "ratios":
+                    document_path = "multipleratio2.docx"
+                    markdown_document = return_markdown(document_path)
+                    relevant_response = b.FetchResults(user_question,markdown_document)
+                    components = {}
+                    if relevant_response.valid:
+                        for key, value in relevant_response.components.items():
+                            components[key] = [
+                                {
+                                    "source": val.source,
+                                    "crieteria": val.crieteria,
+                                    "risk": val.risk
+                                }
+                                for val in value
+                            ]
+                        response = {
+                            "valid": relevant_response.valid,
+                            "components": components,
+                            "formula": relevant_response.formula,
+                            "planner": relevant_response.planner,
                         }
-                        for val in value
-                    ]
-
-                response = {
-                    "components": components,
-                    "formula": relevant_response.formula,
-                    "planner": relevant_response.planner,
-                    "sql_template": relevant_response.sql_template
-                }
-                await websocket.send_json(response)
-                    # clarity_check = b.Claritycheckfunction(user_question,tool_names,description,user_role)
-                    # if not clarity_check.clarity:
-                    #     reasoning = clarity_check.reasoning
-                    #     await websocket.send_text(f"Clarity check failed: {reasoning}. Please clarify your question.")
-                    #     memory['clarity_check'] = False
-                    #     continue
-                    # else:
-                    #     memory['clarity_check'] = True
-                    #     function_call = clarity_check.functioncall
-                    #     for function in function_call:
-                    #         tool_name = function.tool_name
-                    #         parameters = function.parameters
-                    #         call_tool = tool_functions.get(tool_name)
-                    #         if parameters:
-                    #             result = call_tool(*parameters)
-                    #         else:
-                    #             result = call_tool()
-                    #         await websocket.send_text(f"Tool {tool_name} called with parameters: {parameters}, and the result is: {result}")             
+                        sql_query_generator = b.SqlQueryGenerator(response)
+                        sql_query = sql_query_generator.sql_query
+                        sql = {
+                            "sql_query": sql_query
+                        }
+                        # sql_result = execute_query(sql_query)
+                        # sql_result_brief = b.SqlResult(user_question,str(sql_result))
+                        # response_to_user = sql_result_brief.response_string
+                        await websocket.send_json(sql)
+                    else:
+                        await websocket.send_text("No relevant response found. Please try again.")
+                elif route.tool.lower() == "gl_info":
+                    await websocket.send_text("Fetching GL info...")
+                elif route.tool.lower() == "loan_info":
+                    await websocket.send_text("Fetching loan info...")
+                elif route.tool.lower() == "invalid":
+                    await websocket.send_text("Invalid. Please try again.")
         except WebSocketDisconnect:
             await websocket.close()
 

@@ -23,7 +23,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (7)
+# Generated classes (10)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -44,16 +44,25 @@ class Invocations(BaseModel):
     parameters: typing.Optional[typing.Union[typing.List[str], typing.List[int]]] = None
 
 class Parameters(BaseModel):
-    components: typing.Dict[str, typing.List["ComponentDetail"]]
+    valid: typing.Optional[bool] = None
+    components: typing.Optional[typing.Dict[str, typing.List["ComponentDetail"]]] = None
     formula: typing.Optional[str] = None
     planner: typing.Optional[str] = None
-    sql_template: typing.Optional[str] = None
+
+class Response(BaseModel):
+    response_string: typing.Optional[str] = None
 
 class Resume(BaseModel):
     name: typing.Optional[str] = None
     email: typing.Optional[str] = None
     experience: typing.List[str]
     skills: typing.List[str]
+
+class Route(BaseModel):
+    tool: typing.Optional[str] = None
+
+class SqlQuery(BaseModel):
+    sql_query: typing.Optional[str] = None
 
 class Toolvalidation(BaseModel):
     valid: typing.Optional[bool] = None

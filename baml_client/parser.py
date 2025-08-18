@@ -34,6 +34,12 @@ class LlmResponseParser:
         result = self.__options.merge_options(baml_options).parse_response(function_name="Claritycheckfunction", llm_response=llm_response, mode="request")
         return typing.cast(types.ClarityCheck, result)
 
+    def DefineRoute(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Route:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="DefineRoute", llm_response=llm_response, mode="request")
+        return typing.cast(types.Route, result)
+
     def ExtractResume(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> types.Resume:
@@ -45,6 +51,18 @@ class LlmResponseParser:
     ) -> types.Parameters:
         result = self.__options.merge_options(baml_options).parse_response(function_name="FetchResults", llm_response=llm_response, mode="request")
         return typing.cast(types.Parameters, result)
+
+    def SqlQueryGenerator(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlQueryGenerator", llm_response=llm_response, mode="request")
+        return typing.cast(types.SqlQuery, result)
+
+    def SqlResult(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Response:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlResult", llm_response=llm_response, mode="request")
+        return typing.cast(types.Response, result)
 
     def ValidateToolCalling(
         self, llm_response: str, baml_options: BamlCallOptions = {},
@@ -72,6 +90,12 @@ class LlmStreamParser:
         result = self.__options.merge_options(baml_options).parse_response(function_name="Claritycheckfunction", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.ClarityCheck, result)
 
+    def DefineRoute(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Route:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="DefineRoute", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Route, result)
+
     def ExtractResume(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> stream_types.Resume:
@@ -83,6 +107,18 @@ class LlmStreamParser:
     ) -> stream_types.Parameters:
         result = self.__options.merge_options(baml_options).parse_response(function_name="FetchResults", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.Parameters, result)
+
+    def SqlQueryGenerator(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlQueryGenerator", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.SqlQuery, result)
+
+    def SqlResult(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Response:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlResult", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Response, result)
 
     def ValidateToolCalling(
         self, llm_response: str, baml_options: BamlCallOptions = {},

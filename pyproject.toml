@@ -5,11 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "baml-py>=0.204.0",
+    "baml-py==0.205.0",
     "docling>=2.44.0",
     "fastapi>=0.116.1",
     "pandas>=2.3.1",
+    "psycopg2>=2.9.10",
     "python-dotenv>=1.1.1",
+    "sqlalchemy>=2.0.43",
     "uvicorn>=0.35.0",
     "websockets>=15.0.1",
 ]
