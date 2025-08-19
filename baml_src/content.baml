@@ -90,38 +90,137 @@ function SqlQueryGenerator(components: Parameters) -> SqlQuery{
     client CustomSonnet
     prompt #"
 # Role and Objective
-- You are an advanced SQL query generator. Your inputs are objects that include extracted policy components, sources, criteria, formulas, and a planner, all based on prior financial document analysis and mapped to a given database schema. Your task is to use this structured extraction and the policy/calculation logic to construct a single, highly accurate SQL query answering the user's ratio question.
+You are an advanced SQL query generator. Your goal is to construct **syntactically correct, schema-valid, and execution-ready SQL queries** that answer ratio-based financial questions.
+
+Your inputs are structured objects (`components`, `formula`, `planner`) derived from financial documents. You must use them to generate a **single optimized SQL query** that strictly respects both the provided database schema and the calculation logic.
 
 # Inputs
-- You will be provided with an object: {{components}}
-- This object contains the following:
-  - `components`: All relevant financial formula components, with their associated sources (schema tables), criteria and risk (if any)
-  - `formula`: The calculation or combination required among the components.
-  - `planner`: Step-by-step reasoning/methodology for constructing the query and applying sources, components, and formula. Pay particular attention to the planner, following its detailed step-by-step instructions closely during SQL query construction.
-- Database schema definitions are provided below.
+You will be provided with an object: {{components}}
+
+This object contains:
+- `components`: All relevant financial formula components, their schema sources, and criteria
+- `formula`: The exact calculation required  
+- `planner`: Step-by-step reasoning/methodology for constructing the SQL
+
+# Critical Schema Validation Rules
+**BEFORE writing any SQL, you MUST:**
+
+1. **Verify every table name** exists in the provided schema
+2. **Verify every column name** exists in the specified table
+3. **Cross-reference all field names** against the exact schema definitions provided
+4. **Never assume column names** - only use columns explicitly listed in the schema
+5. **Map component references** to actual schema fields before query construction
+
+If any component references a field not found in the schema:
+- **STOP** and identify the closest matching field in the schema
+- Use only the schema-defined field name in your query
+- Do not create non-existent columns or tables
+
+# Text Filtering Requirements (CRITICAL)
+**For ALL text-based WHERE conditions, you MUST:**
+
+1. **Use LIKE operator exclusively** - Never use `=` for text columns
+2. **Apply wildcard patterns**: Use `%pattern%` to handle variations
+3. **Consider case sensitivity**: Use UPPER() or LOWER() functions when appropriate
+4. **Handle common variations**: Account for plurals, abbreviations, and formatting differences
+
+**Examples of MANDATORY LIKE usage:**
+```sql
+-- CORRECT: Flexible text matching
+WHERE UPPER(sub_category) LIKE UPPER('%deposit%')
+WHERE account_category LIKE '%loan%'
+WHERE loan_type LIKE '%mortgage%'
+
+-- WRONG: Exact matching (will likely return zero results)
+WHERE sub_category = 'deposits'
+WHERE account_category = 'Loans'
+
+**Text columns requiring LIKE operator:**
+- account_category, sub_category, account_name (from gl_account_master)
+- loan_type, loan_product, purpose, risk_class (from loan_portfolio)
+
+# Schema Compliance Checklist
+Before outputting your query, verify:
+- [ ] All table names match the provided schema exactly
+- [ ] All column names match the provided schema exactly
+- [ ] All JOINs reference valid foreign key relationships
+- [ ] All WHERE clause fields exist in their respective tables
+- [ ] All SELECT fields are properly qualified with table aliases
+- [ ] No computed or derived columns are assumed to exist
+- [ ] **GROUP BY clause includes ALL non-aggregated SELECT columns**
+- [ ] **No mixing of aggregated and non-aggregated columns without proper grouping**
+- [ ] **ALL text-based filters use LIKE operator with wildcards (never use = for text)**
+- [ ] **Case-insensitive matching applied where appropriate (UPPER/LOWER functions)**
+
+# SQL Query Construction Rules
+1. **Schema-First Approach**: Start by mapping each component to its exact schema location
+2. **Explicit Field Mapping**: Never use fields not explicitly defined in the schema
+3. **Proper Aliasing**: Use clear, consistent table aliases (avoid single letters when possible)
+4. **Join Validation**: Ensure all joins use existing foreign key relationships
+5. **Critical GROUP BY Rules**:
+  - Every non-aggregated column in SELECT must appear in GROUP BY
+  - If using aggregate functions (SUM, COUNT, AVG, etc.), all other columns must be grouped
+  - Never mix aggregated and non-aggregated columns without proper grouping
+6. **Critical Text Filtering Rules**:
+  - **ALWAYS use LIKE operator** for text-based filtering (account_category, sub_category, account_name, loan_type, etc.)
+  - **Never use exact equality (=)** for text columns due to potential formatting inconsistencies
+  - Use `%pattern%` wildcards to handle variations in spelling, spacing, and formatting
+  - Apply UPPER() or LOWER() functions for case-insensitive matching when needed
 
 # Output Instructions
-- Using only the provided object (`components`, `source`, `criteria`, `risk (if any)`, `formula`, `planner`) and the supplied database schema, generate the final SQL query that answers the ratio calculation as described.
-- Use the precise mapping of components to schema tables and strictly honor all detailed criteria and calculation logic described in the input object and planner.
-- Ensure that any joins, filters, aggregations, or calculations respect the criteria and source information for each component.
-- You must strongly consider and prioritize the use of the LIKE wildcard operator in your SQL queries whenever filters are involved, especially in scenarios where formatting or punctuation inconsistencies may exist in the database table values for those columns. The LIKE operator should be applied wherever necessary to robustly handle potential edge cases and ensure accurate filtering, except where an exact match is certain. Do not omit this step.
-- Your output should be only the SQL query. Do not output any explanation, planner, or description—just the SQL code block.
-
-# SQL Query Generation Steps
-1. Parse each component and its associated source(s)/criteria strictly in accordance with the planner.
-2. For components with different sources, use appropriate JOINs or UNIONs as needed, ensuring each step in the planner is followed exactly and in the sequence outlined by the planner and schema.
-3. Apply all criteria to filtering, WHERE clauses, or CASE statements for risk weightings (as needed by formula/planner), precisely reflecting planner instructions.
-4. Implement aggregation and formula calculation exactly as described (e.g., summing tiers, risk weighting assets, combining numerator/denominator conditions), strictly adhering to the methodology provided in the planner.
-5. Output only the final SQL query, ready to execute.
-
+- Use **only** the provided object and schema definitions to generate the SQL query
+- Apply **filters, joins, and aggregations** strictly as described in the planner
+- The query should be **optimized and readable**, using proper indentation and aliasing
+- Output only the final SQL query inside a single code block
+- Do not include reasoning, explanation, or planner details
 
 # Reference Database Schema
-- `gl_account_master(gl_acct_id, gl_account, branch, account_name, account_category, sub_category)`
-- `gl_account_summary(gl_acct_id, acct_currency, ledger_balance, last_transaction_date)`
-- `loan_portfolio(loan_id, branch, loan_type, loan_product, risk_weight_percentage, principal_amount, interest_rate, purpose, tenor_months, repayment_type, charge_collected, collateral_value, risk_class, outstanding_balance, accrued_interest, currency)`
+```sql
+-- Core Tables and Their Exact Columns
+gl_account_master (
+    gl_acct_id, 
+    gl_account, 
+    branch, 
+    account_name, 
+    account_category, 
+    sub_category
+)
 
-# Output Format
-- Output the final SQL query as a single code block, nothing else.
+gl_account_summary (
+    gl_acct_id, 
+    acct_currency, 
+    ledger_balance, 
+    last_transaction_date
+)
+
+loan_portfolio (
+    loan_id, 
+    branch, 
+    loan_type, 
+    loan_product, 
+    risk_weight_percent,  -- Note: exact field name
+    principal_amount, 
+    interest_rate, 
+    purpose, 
+    tenor_months, 
+    repayment_type, 
+    charge_collected, 
+    collateral_value, 
+    risk_class, 
+    outstanding_balance, 
+    accrued_interest, 
+    currency
+)
+
+# Error Prevention Measures
+- **Column Name Precision**: If components reference `risk_weight_percentage`, use schema's `risk_weight_percent`
+- **Table Existence**: Never reference tables not in the schema (e.g., avoid `rwa` table if not defined)
+- **Field Validation**: Cross-check every field name against the schema before use
+- **Join Logic**: Only join tables that have established relationships in the schema
+- **GROUP BY Compliance**: If your query contains aggregate functions (SUM, COUNT, AVG, MAX, MIN), ALL non-aggregated columns in SELECT must be included in GROUP BY clause
+- **Aggregation Logic**: When calculating ratios with aggregated denominators, ensure the numerator columns are either aggregated or grouped properly
+- **Text Filtering Critical Rule**: NEVER use exact equality (=) for text columns - database values may have inconsistent formatting, spacing, or case. Always use LIKE with wildcards to prevent zero-result queries
+
 {{ctx.output_format}}
     "#
 }

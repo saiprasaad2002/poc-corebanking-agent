@@ -44,7 +44,7 @@ class Tools(str, Enum):
     pass
 
 # #########################################################################
-# Generated classes (10)
+# Generated classes (12)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -56,6 +56,16 @@ class ComponentDetail(BaseModel):
     source: str
     crieteria: typing.Optional[str] = None
     risk: typing.Optional[str] = None
+
+class GLParams(BaseModel):
+    account_number: typing.List[str]
+    branch: typing.Optional[typing.List[str]] = None
+    clarification: bool
+    reason: typing.Optional[str] = None
+
+class InputPromptCheck(BaseModel):
+    jail_break_attempt: bool
+    response: typing.Optional[str] = None
 
 class Intent(BaseModel):
     valid: bool

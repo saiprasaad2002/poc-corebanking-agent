@@ -23,7 +23,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (10)
+# Generated classes (12)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -35,6 +35,16 @@ class ComponentDetail(BaseModel):
     source: typing.Optional[str] = None
     crieteria: typing.Optional[str] = None
     risk: typing.Optional[str] = None
+
+class GLParams(BaseModel):
+    account_number: typing.List[str]
+    branch: typing.Optional[typing.List[str]] = None
+    clarification: typing.Optional[bool] = None
+    reason: typing.Optional[str] = None
+
+class InputPromptCheck(BaseModel):
+    jail_break_attempt: typing.Optional[bool] = None
+    response: typing.Optional[str] = None
 
 class Intent(BaseModel):
     valid: typing.Optional[bool] = None

@@ -22,6 +22,12 @@ type_map = {
     "types.ComponentDetail": types.ComponentDetail,
     "stream_types.ComponentDetail": stream_types.ComponentDetail,
 
+    "types.GLParams": types.GLParams,
+    "stream_types.GLParams": stream_types.GLParams,
+
+    "types.InputPromptCheck": types.InputPromptCheck,
+    "stream_types.InputPromptCheck": stream_types.InputPromptCheck,
+
     "types.Intent": types.Intent,
     "stream_types.Intent": stream_types.Intent,
 
