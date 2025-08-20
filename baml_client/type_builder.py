@@ -20,7 +20,7 @@ from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIM
 class TypeBuilder(type_builder.TypeBuilder):
     def __init__(self):
         super().__init__(classes=set(
-          ["ClarityCheck","ComponentDetail","Intent","Invocations","Parameters","Resume","Toolvalidation",]
+          ["ClarityCheck","ComponentDetail","GLParams","InputPromptCheck","Intent","Invocations","Output","Parameters","Response","Resume","Route","SqlQuery","Toolvalidation",]
         ), enums=set(
           ["Tools",]
         ), runtime=DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME)
@@ -35,7 +35,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
     # #########################################################################
-    # Generated classes 7
+    # Generated classes 13
     # #########################################################################
 
     @property
@@ -47,6 +47,14 @@ class TypeBuilder(type_builder.TypeBuilder):
         return ComponentDetailViewer(self)
 
     @property
+    def GLParams(self) -> "GLParamsViewer":
+        return GLParamsViewer(self)
+
+    @property
+    def InputPromptCheck(self) -> "InputPromptCheckViewer":
+        return InputPromptCheckViewer(self)
+
+    @property
     def Intent(self) -> "IntentViewer":
         return IntentViewer(self)
 
@@ -55,12 +63,28 @@ class TypeBuilder(type_builder.TypeBuilder):
         return InvocationsViewer(self)
 
     @property
+    def Output(self) -> "OutputViewer":
+        return OutputViewer(self)
+
+    @property
     def Parameters(self) -> "ParametersViewer":
         return ParametersViewer(self)
 
     @property
+    def Response(self) -> "ResponseViewer":
+        return ResponseViewer(self)
+
+    @property
     def Resume(self) -> "ResumeViewer":
         return ResumeViewer(self)
+
+    @property
+    def Route(self) -> "RouteViewer":
+        return RouteViewer(self)
+
+    @property
+    def SqlQuery(self) -> "SqlQueryViewer":
+        return SqlQueryViewer(self)
 
     @property
     def Toolvalidation(self) -> "ToolvalidationViewer":
@@ -118,7 +142,7 @@ class ToolsValues:
 
 
 # #########################################################################
-# Generated classes 7
+# Generated classes 13
 # #########################################################################
 
 class ClarityCheckAst:
@@ -215,6 +239,100 @@ class ComponentDetailProperties:
     
 
 
+class GLParamsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("GLParams")
+        self._properties: typing.Set[str] = set([  "account_number",  "branch",  "clarification",  "reason",  ])
+        self._props = GLParamsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "GLParamsProperties":
+        return self._props
+
+
+class GLParamsViewer(GLParamsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class GLParamsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def account_number(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("account_number"))
+    
+    @property
+    def branch(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("branch"))
+    
+    @property
+    def clarification(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("clarification"))
+    
+    @property
+    def reason(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("reason"))
+    
+    
+
+
+class InputPromptCheckAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("InputPromptCheck")
+        self._properties: typing.Set[str] = set([  "jail_break_attempt",  "response",  ])
+        self._props = InputPromptCheckProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "InputPromptCheckProperties":
+        return self._props
+
+
+class InputPromptCheckViewer(InputPromptCheckAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class InputPromptCheckProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def jail_break_attempt(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("jail_break_attempt"))
+    
+    @property
+    def response(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("response"))
+    
+    
+
+
 class IntentAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
@@ -297,11 +415,50 @@ class InvocationsProperties:
     
 
 
+class OutputAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("Output")
+        self._properties: typing.Set[str] = set([  "formatted_message",  ])
+        self._props = OutputProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "OutputProperties":
+        return self._props
+
+
+class OutputViewer(OutputAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class OutputProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def formatted_message(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("formatted_message"))
+    
+    
+
+
 class ParametersAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
         self._bldr = _tb.class_("Parameters")
-        self._properties: typing.Set[str] = set([  "components",  "formula",  "planner",  "sql_template",  ])
+        self._properties: typing.Set[str] = set([  "valid",  "components",  "formula",  "planner",  ])
         self._props = ParametersProperties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
@@ -330,6 +487,10 @@ class ParametersProperties:
     
     
     @property
+    def valid(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("valid"))
+    
+    @property
     def components(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("components"))
     
@@ -341,9 +502,44 @@ class ParametersProperties:
     def planner(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("planner"))
     
+    
+
+
+class ResponseAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("Response")
+        self._properties: typing.Set[str] = set([  "response_string",  ])
+        self._props = ResponseProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
     @property
-    def sql_template(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("sql_template"))
+    def props(self) -> "ResponseProperties":
+        return self._props
+
+
+class ResponseViewer(ResponseAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class ResponseProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def response_string(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("response_string"))
     
     
 
@@ -395,6 +591,84 @@ class ResumeProperties:
     @property
     def skills(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("skills"))
+    
+    
+
+
+class RouteAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("Route")
+        self._properties: typing.Set[str] = set([  "tool",  ])
+        self._props = RouteProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "RouteProperties":
+        return self._props
+
+
+class RouteViewer(RouteAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class RouteProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def tool(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("tool"))
+    
+    
+
+
+class SqlQueryAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("SqlQuery")
+        self._properties: typing.Set[str] = set([  "sql_query",  ])
+        self._props = SqlQueryProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "SqlQueryProperties":
+        return self._props
+
+
+class SqlQueryViewer(SqlQueryAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class SqlQueryProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def sql_query(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("sql_query"))
     
     
 

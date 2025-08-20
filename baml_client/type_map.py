@@ -22,17 +22,35 @@ type_map = {
     "types.ComponentDetail": types.ComponentDetail,
     "stream_types.ComponentDetail": stream_types.ComponentDetail,
 
+    "types.GLParams": types.GLParams,
+    "stream_types.GLParams": stream_types.GLParams,
+
+    "types.InputPromptCheck": types.InputPromptCheck,
+    "stream_types.InputPromptCheck": stream_types.InputPromptCheck,
+
     "types.Intent": types.Intent,
     "stream_types.Intent": stream_types.Intent,
 
     "types.Invocations": types.Invocations,
     "stream_types.Invocations": stream_types.Invocations,
 
+    "types.Output": types.Output,
+    "stream_types.Output": stream_types.Output,
+
     "types.Parameters": types.Parameters,
     "stream_types.Parameters": stream_types.Parameters,
 
+    "types.Response": types.Response,
+    "stream_types.Response": stream_types.Response,
+
     "types.Resume": types.Resume,
     "stream_types.Resume": stream_types.Resume,
+
+    "types.Route": types.Route,
+    "stream_types.Route": stream_types.Route,
+
+    "types.SqlQuery": types.SqlQuery,
+    "stream_types.SqlQuery": stream_types.SqlQuery,
 
     "types.Toolvalidation": types.Toolvalidation,
     "stream_types.Toolvalidation": stream_types.Toolvalidation,

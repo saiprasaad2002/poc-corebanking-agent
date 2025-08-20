@@ -34,17 +34,59 @@ class LlmResponseParser:
         result = self.__options.merge_options(baml_options).parse_response(function_name="Claritycheckfunction", llm_response=llm_response, mode="request")
         return typing.cast(types.ClarityCheck, result)
 
+    def DefineRoute(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Route:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="DefineRoute", llm_response=llm_response, mode="request")
+        return typing.cast(types.Route, result)
+
     def ExtractResume(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> types.Resume:
         result = self.__options.merge_options(baml_options).parse_response(function_name="ExtractResume", llm_response=llm_response, mode="request")
         return typing.cast(types.Resume, result)
 
+    def FetchGLParams(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.GLParams:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="FetchGLParams", llm_response=llm_response, mode="request")
+        return typing.cast(types.GLParams, result)
+
     def FetchResults(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> types.Parameters:
         result = self.__options.merge_options(baml_options).parse_response(function_name="FetchResults", llm_response=llm_response, mode="request")
         return typing.cast(types.Parameters, result)
+
+    def InputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.InputPromptCheck:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="InputGuardrail", llm_response=llm_response, mode="request")
+        return typing.cast(types.InputPromptCheck, result)
+
+    def OutputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Output:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="OutputGuardrail", llm_response=llm_response, mode="request")
+        return typing.cast(types.Output, result)
+
+    def RectifySqlQuery(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="RectifySqlQuery", llm_response=llm_response, mode="request")
+        return typing.cast(types.SqlQuery, result)
+
+    def SqlQueryGenerator(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlQueryGenerator", llm_response=llm_response, mode="request")
+        return typing.cast(types.SqlQuery, result)
+
+    def SqlResult(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Response:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlResult", llm_response=llm_response, mode="request")
+        return typing.cast(types.Response, result)
 
     def ValidateToolCalling(
         self, llm_response: str, baml_options: BamlCallOptions = {},
@@ -72,17 +114,59 @@ class LlmStreamParser:
         result = self.__options.merge_options(baml_options).parse_response(function_name="Claritycheckfunction", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.ClarityCheck, result)
 
+    def DefineRoute(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Route:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="DefineRoute", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Route, result)
+
     def ExtractResume(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> stream_types.Resume:
         result = self.__options.merge_options(baml_options).parse_response(function_name="ExtractResume", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.Resume, result)
 
+    def FetchGLParams(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.GLParams:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="FetchGLParams", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.GLParams, result)
+
     def FetchResults(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> stream_types.Parameters:
         result = self.__options.merge_options(baml_options).parse_response(function_name="FetchResults", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.Parameters, result)
+
+    def InputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.InputPromptCheck:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="InputGuardrail", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.InputPromptCheck, result)
+
+    def OutputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Output:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="OutputGuardrail", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Output, result)
+
+    def RectifySqlQuery(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="RectifySqlQuery", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.SqlQuery, result)
+
+    def SqlQueryGenerator(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlQueryGenerator", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.SqlQuery, result)
+
+    def SqlResult(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Response:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="SqlResult", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Response, result)
 
     def ValidateToolCalling(
         self, llm_response: str, baml_options: BamlCallOptions = {},

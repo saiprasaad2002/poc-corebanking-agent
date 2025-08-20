@@ -87,6 +87,13 @@ class BamlAsyncClient:
             "user_question": user_question,"tools": tools,"description": description,"user_role": user_role,
         })
         return typing.cast(types.ClarityCheck, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def DefineRoute(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Route:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="DefineRoute", args={
+            "user_question": user_question,
+        })
+        return typing.cast(types.Route, result.cast_to(types, types, stream_types, False, __runtime__))
     async def ExtractResume(self, resume: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Resume:
@@ -94,6 +101,13 @@ class BamlAsyncClient:
             "resume": resume,
         })
         return typing.cast(types.Resume, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def FetchGLParams(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.GLParams:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="FetchGLParams", args={
+            "user_question": user_question,
+        })
+        return typing.cast(types.GLParams, result.cast_to(types, types, stream_types, False, __runtime__))
     async def FetchResults(self, markdown_content: str,user_question: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Parameters:
@@ -101,6 +115,41 @@ class BamlAsyncClient:
             "markdown_content": markdown_content,"user_question": user_question,
         })
         return typing.cast(types.Parameters, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def InputGuardrail(self, user_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.InputPromptCheck:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="InputGuardrail", args={
+            "user_message": user_message,
+        })
+        return typing.cast(types.InputPromptCheck, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Output:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        })
+        return typing.cast(types.Output, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        })
+        return typing.cast(types.SqlQuery, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def SqlQueryGenerator(self, components: types.Parameters,
+        baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="SqlQueryGenerator", args={
+            "components": components,
+        })
+        return typing.cast(types.SqlQuery, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def SqlResult(self, user_question: str,sql_result: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Response:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="SqlResult", args={
+            "user_question": user_question,"sql_result": sql_result,
+        })
+        return typing.cast(types.Response, result.cast_to(types, types, stream_types, False, __runtime__))
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Toolvalidation:
@@ -141,6 +190,18 @@ class BamlStreamClient:
           lambda x: typing.cast(types.ClarityCheck, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
         )
+    def DefineRoute(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.Route, types.Route]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="DefineRoute", args={
+            "user_question": user_question,
+        })
+        return baml_py.BamlStream[stream_types.Route, types.Route](
+          result,
+          lambda x: typing.cast(stream_types.Route, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Route, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
     def ExtractResume(self, resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.Resume, types.Resume]:
@@ -153,6 +214,18 @@ class BamlStreamClient:
           lambda x: typing.cast(types.Resume, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
         )
+    def FetchGLParams(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.GLParams, types.GLParams]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="FetchGLParams", args={
+            "user_question": user_question,
+        })
+        return baml_py.BamlStream[stream_types.GLParams, types.GLParams](
+          result,
+          lambda x: typing.cast(stream_types.GLParams, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.GLParams, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
     def FetchResults(self, markdown_content: str,user_question: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.Parameters, types.Parameters]:
@@ -163,6 +236,66 @@ class BamlStreamClient:
           result,
           lambda x: typing.cast(stream_types.Parameters, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.Parameters, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def InputGuardrail(self, user_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.InputPromptCheck, types.InputPromptCheck]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="InputGuardrail", args={
+            "user_message": user_message,
+        })
+        return baml_py.BamlStream[stream_types.InputPromptCheck, types.InputPromptCheck](
+          result,
+          lambda x: typing.cast(stream_types.InputPromptCheck, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.InputPromptCheck, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.Output, types.Output]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        })
+        return baml_py.BamlStream[stream_types.Output, types.Output](
+          result,
+          lambda x: typing.cast(stream_types.Output, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Output, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        })
+        return baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery](
+          result,
+          lambda x: typing.cast(stream_types.SqlQuery, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.SqlQuery, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def SqlQueryGenerator(self, components: types.Parameters,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="SqlQueryGenerator", args={
+            "components": components,
+        })
+        return baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery](
+          result,
+          lambda x: typing.cast(stream_types.SqlQuery, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.SqlQuery, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def SqlResult(self, user_question: str,sql_result: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.Response, types.Response]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="SqlResult", args={
+            "user_question": user_question,"sql_result": sql_result,
+        })
+        return baml_py.BamlStream[stream_types.Response, types.Response](
+          result,
+          lambda x: typing.cast(stream_types.Response, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Response, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
         )
     def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,
@@ -199,6 +332,13 @@ class BamlHttpRequestClient:
             "user_question": user_question,"tools": tools,"description": description,"user_role": user_role,
         }, mode="request")
         return result
+    async def DefineRoute(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="DefineRoute", args={
+            "user_question": user_question,
+        }, mode="request")
+        return result
     async def ExtractResume(self, resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -206,11 +346,53 @@ class BamlHttpRequestClient:
             "resume": resume,
         }, mode="request")
         return result
+    async def FetchGLParams(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="FetchGLParams", args={
+            "user_question": user_question,
+        }, mode="request")
+        return result
     async def FetchResults(self, markdown_content: str,user_question: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="FetchResults", args={
             "markdown_content": markdown_content,"user_question": user_question,
+        }, mode="request")
+        return result
+    async def InputGuardrail(self, user_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="InputGuardrail", args={
+            "user_message": user_message,
+        }, mode="request")
+        return result
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        }, mode="request")
+        return result
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        }, mode="request")
+        return result
+    async def SqlQueryGenerator(self, components: types.Parameters,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlQueryGenerator", args={
+            "components": components,
+        }, mode="request")
+        return result
+    async def SqlResult(self, user_question: str,sql_result: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlResult", args={
+            "user_question": user_question,"sql_result": sql_result,
         }, mode="request")
         return result
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,
@@ -242,6 +424,13 @@ class BamlHttpStreamRequestClient:
             "user_question": user_question,"tools": tools,"description": description,"user_role": user_role,
         }, mode="stream")
         return result
+    async def DefineRoute(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="DefineRoute", args={
+            "user_question": user_question,
+        }, mode="stream")
+        return result
     async def ExtractResume(self, resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -249,11 +438,53 @@ class BamlHttpStreamRequestClient:
             "resume": resume,
         }, mode="stream")
         return result
+    async def FetchGLParams(self, user_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="FetchGLParams", args={
+            "user_question": user_question,
+        }, mode="stream")
+        return result
     async def FetchResults(self, markdown_content: str,user_question: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="FetchResults", args={
             "markdown_content": markdown_content,"user_question": user_question,
+        }, mode="stream")
+        return result
+    async def InputGuardrail(self, user_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="InputGuardrail", args={
+            "user_message": user_message,
+        }, mode="stream")
+        return result
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        }, mode="stream")
+        return result
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        }, mode="stream")
+        return result
+    async def SqlQueryGenerator(self, components: types.Parameters,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlQueryGenerator", args={
+            "components": components,
+        }, mode="stream")
+        return result
+    async def SqlResult(self, user_question: str,sql_result: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlResult", args={
+            "user_question": user_question,"sql_result": sql_result,
         }, mode="stream")
         return result
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,

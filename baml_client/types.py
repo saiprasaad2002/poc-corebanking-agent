@@ -44,7 +44,7 @@ class Tools(str, Enum):
     pass
 
 # #########################################################################
-# Generated classes (7)
+# Generated classes (13)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -54,8 +54,18 @@ class ClarityCheck(BaseModel):
 
 class ComponentDetail(BaseModel):
     source: str
-    crieteria: str
+    crieteria: typing.Optional[str] = None
     risk: typing.Optional[str] = None
+
+class GLParams(BaseModel):
+    account_number: typing.List[str]
+    branch: typing.Optional[typing.List[str]] = None
+    clarification: bool
+    reason: typing.Optional[str] = None
+
+class InputPromptCheck(BaseModel):
+    jail_break_attempt: bool
+    response: typing.Optional[str] = None
 
 class Intent(BaseModel):
     valid: bool
@@ -64,17 +74,29 @@ class Invocations(BaseModel):
     tool_name: str
     parameters: typing.Union[typing.List[str], typing.List[int]]
 
+class Output(BaseModel):
+    formatted_message: str
+
 class Parameters(BaseModel):
-    components: typing.Dict[str, typing.List["ComponentDetail"]]
-    formula: str
-    planner: str
-    sql_template: str
+    valid: bool
+    components: typing.Optional[typing.Dict[str, typing.List["ComponentDetail"]]] = None
+    formula: typing.Optional[str] = None
+    planner: typing.Optional[str] = None
+
+class Response(BaseModel):
+    response_string: str
 
 class Resume(BaseModel):
     name: str
     email: str
     experience: typing.List[str]
     skills: typing.List[str]
+
+class Route(BaseModel):
+    tool: str
+
+class SqlQuery(BaseModel):
+    sql_query: str
 
 class Toolvalidation(BaseModel):
     valid: bool
