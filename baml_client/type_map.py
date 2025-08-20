@@ -34,6 +34,9 @@ type_map = {
     "types.Invocations": types.Invocations,
     "stream_types.Invocations": stream_types.Invocations,
 
+    "types.Output": types.Output,
+    "stream_types.Output": stream_types.Output,
+
     "types.Parameters": types.Parameters,
     "stream_types.Parameters": stream_types.Parameters,
 

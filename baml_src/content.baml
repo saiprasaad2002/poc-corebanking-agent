@@ -232,10 +232,82 @@ class Response{
 function SqlResult(user_question:string, sql_result:string) -> Response{
     client CustomSonnet
     prompt #"
-        You're an expert at briefing the sql query execution result to the user, according to
-        what user has asked. Here's the user asked question: {{user_question}} and 
-        here's the sql query result: {{sql_result}}
+        You're an expert at briefing the SQL query execution result to the user, 
+        with a particular focus on financial data. When summarizing results, 
+        use a professional and informative tone suitable for financial contexts, 
+        and explain the query result in natural language. 
+
+        NOTE:
+        - Understand the natural language date ranges mentioned in the user question. Make your result relevant to the current date and time
+        - Only for the user questions that are statement-related, **STRICTLY** only give a tabular structured statement (even if it has only one value) for the user asked account.
+        - DO NOT TRUNCATE ANY TABLE ROWS FOR BREVITY, SHOW ALL THE TABLE DATA
+        - For the rest set of questions, just provide straight to the point answers, don't explain anything else with the data you have.
+
+        Here's the user asked question: {{user_question}}, and here's the SQL query result: {{sql_result}}
+        {{ctx.output_format}}
+    "#
+}
+
+function RectifySqlQuery(sql_query: string, exception_message: string) -> SqlQuery{
+    client "openai/gpt-4o"
+    prompt #"
+        You're a senior database engineer, fluent in SQL at advanced levels. You're tasked to
+        rectify an SQL query given to you along with the exception message while executing that
+        incorrect sql query. Analyse and rectify the mistake in the sql query and provide the
+        corrected sql query. Your success rate is 100 percent and you're great at your SQL advancement reputation
+        so keep that in mind and pay full attention to the task given to you.
+        For your ease of correction I'll give you the table schema as well so that you can lookup into this
+        to rectify the incorrect table/column names:
+        ```sql
+        -- Core Tables and Their Exact Columns
+        gl_account_master (
+            gl_acct_id, 
+            gl_account, 
+            branch, 
+            account_name, 
+            account_category, 
+            sub_category
+        )
+
+        gl_account_summary (
+            gl_acct_id, 
+            acct_currency, 
+            ledger_balance, 
+            last_transaction_date
+        )
+
+        loan_portfolio (
+            loan_id, 
+            branch, 
+            loan_type, 
+            loan_product, 
+            risk_weight_percent,  -- Note: exact field name
+            principal_amount, 
+            interest_rate, 
+            purpose, 
+            tenor_months, 
+            repayment_type, 
+            charge_collected, 
+            collateral_value, 
+            risk_class, 
+            outstanding_balance, 
+            accrued_interest, 
+            currency
+        )
+
+        # Error Prevention Measures
+        - **Column Name Precision**: If components reference `risk_weight_percentage`, use schema's `risk_weight_percent`
+        - **Table Existence**: Never reference tables not in the schema (e.g., avoid `rwa` table if not defined)
+        - **Field Validation**: Cross-check every field name against the schema before use
+        - **Join Logic**: Only join tables that have established relationships in the schema
+        - **GROUP BY Compliance**: If your query contains aggregate functions (SUM, COUNT, AVG, MAX, MIN), ALL non-aggregated columns in SELECT must be included in GROUP BY clause
+        - **Aggregation Logic**: When calculating ratios with aggregated denominators, ensure the numerator columns are either aggregated or grouped properly
+        - **Text Filtering Critical Rule**: NEVER use exact equality (=) for text columns - database values may have inconsistent formatting, spacing, or case. Always use LIKE with wildcards to prevent zero-result queries
+
+        Incorrect SQL Query: {{sql_query}}
+        The exception message it got: {{exception_message}}
 
         {{ctx.output_format}}
+
     "#
 }

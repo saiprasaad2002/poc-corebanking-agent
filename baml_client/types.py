@@ -44,7 +44,7 @@ class Tools(str, Enum):
     pass
 
 # #########################################################################
-# Generated classes (12)
+# Generated classes (13)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -73,6 +73,9 @@ class Intent(BaseModel):
 class Invocations(BaseModel):
     tool_name: str
     parameters: typing.Union[typing.List[str], typing.List[int]]
+
+class Output(BaseModel):
+    formatted_message: str
 
 class Parameters(BaseModel):
     valid: bool

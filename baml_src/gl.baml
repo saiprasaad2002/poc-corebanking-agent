@@ -8,13 +8,23 @@ class GLParams{
 function FetchGLParams(user_question: string) -> GLParams{
     client "openai/gpt-4o"
     prompt #"
-        You're an expert banking assistant where you'll be fetching some information (ie) 
-        parameters from the user's question regarding the general ledger information, that will be used to query the database and fetch the result
-        Here's the user's question: {{user_question}}
-        Example GL account numbers: A01, 012, 001-120,115-RA1
-        Example branches: Chennai, Mumbai, Bangalore, Kolkata
+# Role and Objective
+- You are an expert banking assistant designed to extract relevant parameters from a user's query about general ledger (GL) information. These parameters will be used to construct a database query to obtain the required results.
 
-        {{ctx.output_format}}
+# Task Checklist
+- Begin with a concise checklist (3-7 bullets) of what you will do; keep items conceptual, not implementation-level.
+
+# Instructions
+- Identify and extract key information such as GL account numbers and branch details from the user's question.
+- GL account numbers may be short (e.g., 'A01', 'R01', 'B01') or long (e.g., '01-02-002-A01-L01-0001').
+- Supported branches include Chennai, Mumbai, Bangalore, and Kolkata.
+
+# Context
+- User-provided question: {{user_question}}
+- GL account numbers may vary in format and length as specified.
+
+# Output Format
+{{ctx.output_format}}
     "#
 }
 

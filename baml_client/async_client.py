@@ -122,6 +122,20 @@ class BamlAsyncClient:
             "user_message": user_message,
         })
         return typing.cast(types.InputPromptCheck, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Output:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        })
+        return typing.cast(types.Output, result.cast_to(types, types, stream_types, False, __runtime__))
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = await self.__options.merge_options(baml_options).call_function_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        })
+        return typing.cast(types.SqlQuery, result.cast_to(types, types, stream_types, False, __runtime__))
     async def SqlQueryGenerator(self, components: types.Parameters,
         baml_options: BamlCallOptions = {},
     ) -> types.SqlQuery:
@@ -236,6 +250,30 @@ class BamlStreamClient:
           lambda x: typing.cast(types.InputPromptCheck, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
         )
+    def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.Output, types.Output]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        })
+        return baml_py.BamlStream[stream_types.Output, types.Output](
+          result,
+          lambda x: typing.cast(stream_types.Output, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Output, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
+    def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        })
+        return baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery](
+          result,
+          lambda x: typing.cast(stream_types.SqlQuery, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.SqlQuery, x.cast_to(types, types, stream_types, False, __runtime__)),
+          ctx,
+        )
     def SqlQueryGenerator(self, components: types.Parameters,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.SqlQuery, types.SqlQuery]:
@@ -329,6 +367,20 @@ class BamlHttpRequestClient:
             "user_message": user_message,
         }, mode="request")
         return result
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        }, mode="request")
+        return result
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
+        }, mode="request")
+        return result
     async def SqlQueryGenerator(self, components: types.Parameters,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -405,6 +457,20 @@ class BamlHttpStreamRequestClient:
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="InputGuardrail", args={
             "user_message": user_message,
+        }, mode="stream")
+        return result
+    async def OutputGuardrail(self, response_to_user: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="OutputGuardrail", args={
+            "response_to_user": response_to_user,
+        }, mode="stream")
+        return result
+    async def RectifySqlQuery(self, sql_query: str,exception_message: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="RectifySqlQuery", args={
+            "sql_query": sql_query,"exception_message": exception_message,
         }, mode="stream")
         return result
     async def SqlQueryGenerator(self, components: types.Parameters,

@@ -23,7 +23,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (12)
+# Generated classes (13)
 # #########################################################################
 
 class ClarityCheck(BaseModel):
@@ -52,6 +52,9 @@ class Intent(BaseModel):
 class Invocations(BaseModel):
     tool_name: typing.Optional[str] = None
     parameters: typing.Optional[typing.Union[typing.List[str], typing.List[int]]] = None
+
+class Output(BaseModel):
+    formatted_message: typing.Optional[str] = None
 
 class Parameters(BaseModel):
     valid: typing.Optional[bool] = None

@@ -20,7 +20,7 @@ from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIM
 class TypeBuilder(type_builder.TypeBuilder):
     def __init__(self):
         super().__init__(classes=set(
-          ["ClarityCheck","ComponentDetail","GLParams","InputPromptCheck","Intent","Invocations","Parameters","Response","Resume","Route","SqlQuery","Toolvalidation",]
+          ["ClarityCheck","ComponentDetail","GLParams","InputPromptCheck","Intent","Invocations","Output","Parameters","Response","Resume","Route","SqlQuery","Toolvalidation",]
         ), enums=set(
           ["Tools",]
         ), runtime=DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME)
@@ -35,7 +35,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
     # #########################################################################
-    # Generated classes 12
+    # Generated classes 13
     # #########################################################################
 
     @property
@@ -61,6 +61,10 @@ class TypeBuilder(type_builder.TypeBuilder):
     @property
     def Invocations(self) -> "InvocationsViewer":
         return InvocationsViewer(self)
+
+    @property
+    def Output(self) -> "OutputViewer":
+        return OutputViewer(self)
 
     @property
     def Parameters(self) -> "ParametersViewer":
@@ -138,7 +142,7 @@ class ToolsValues:
 
 
 # #########################################################################
-# Generated classes 12
+# Generated classes 13
 # #########################################################################
 
 class ClarityCheckAst:
@@ -407,6 +411,45 @@ class InvocationsProperties:
     @property
     def parameters(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("parameters"))
+    
+    
+
+
+class OutputAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("Output")
+        self._properties: typing.Set[str] = set([  "formatted_message",  ])
+        self._props = OutputProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "OutputProperties":
+        return self._props
+
+
+class OutputViewer(OutputAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class OutputProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def formatted_message(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("formatted_message"))
     
     
 

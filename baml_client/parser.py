@@ -64,6 +64,18 @@ class LlmResponseParser:
         result = self.__options.merge_options(baml_options).parse_response(function_name="InputGuardrail", llm_response=llm_response, mode="request")
         return typing.cast(types.InputPromptCheck, result)
 
+    def OutputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Output:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="OutputGuardrail", llm_response=llm_response, mode="request")
+        return typing.cast(types.Output, result)
+
+    def RectifySqlQuery(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="RectifySqlQuery", llm_response=llm_response, mode="request")
+        return typing.cast(types.SqlQuery, result)
+
     def SqlQueryGenerator(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> types.SqlQuery:
@@ -131,6 +143,18 @@ class LlmStreamParser:
     ) -> stream_types.InputPromptCheck:
         result = self.__options.merge_options(baml_options).parse_response(function_name="InputGuardrail", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.InputPromptCheck, result)
+
+    def OutputGuardrail(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Output:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="OutputGuardrail", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Output, result)
+
+    def RectifySqlQuery(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.SqlQuery:
+        result = self.__options.merge_options(baml_options).parse_response(function_name="RectifySqlQuery", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.SqlQuery, result)
 
     def SqlQueryGenerator(
         self, llm_response: str, baml_options: BamlCallOptions = {},

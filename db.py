@@ -29,17 +29,19 @@ def session_object():
         return None
     
 def execute_query(query):
+    session = session_object()
     try:
-        session = session_object()
         if isinstance(query, str):
             result = session.execute(text(query)).fetchall()
         else:
             result = session.execute(query).fetchall()
-        session.close()
         return result
     except Exception as e:
         print(f"Error executing query: {e}")
-        return None
+        raise
+    finally:
+        session.close()
+
 
 # try:
     #     session = session_object()
