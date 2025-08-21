@@ -143,11 +143,11 @@ class BamlAsyncClient:
             "components": components,
         })
         return typing.cast(types.SqlQuery, result.cast_to(types, types, stream_types, False, __runtime__))
-    async def SqlResult(self, user_question: str,sql_result: str,
+    async def SqlResult(self, user_question: str,sql_result: str,current_date_time: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Response:
         result = await self.__options.merge_options(baml_options).call_function_async(function_name="SqlResult", args={
-            "user_question": user_question,"sql_result": sql_result,
+            "user_question": user_question,"sql_result": sql_result,"current_date_time": current_date_time,
         })
         return typing.cast(types.Response, result.cast_to(types, types, stream_types, False, __runtime__))
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,
@@ -286,11 +286,11 @@ class BamlStreamClient:
           lambda x: typing.cast(types.SqlQuery, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
         )
-    def SqlResult(self, user_question: str,sql_result: str,
+    def SqlResult(self, user_question: str,sql_result: str,current_date_time: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.Response, types.Response]:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(function_name="SqlResult", args={
-            "user_question": user_question,"sql_result": sql_result,
+            "user_question": user_question,"sql_result": sql_result,"current_date_time": current_date_time,
         })
         return baml_py.BamlStream[stream_types.Response, types.Response](
           result,
@@ -388,11 +388,11 @@ class BamlHttpRequestClient:
             "components": components,
         }, mode="request")
         return result
-    async def SqlResult(self, user_question: str,sql_result: str,
+    async def SqlResult(self, user_question: str,sql_result: str,current_date_time: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlResult", args={
-            "user_question": user_question,"sql_result": sql_result,
+            "user_question": user_question,"sql_result": sql_result,"current_date_time": current_date_time,
         }, mode="request")
         return result
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,
@@ -480,11 +480,11 @@ class BamlHttpStreamRequestClient:
             "components": components,
         }, mode="stream")
         return result
-    async def SqlResult(self, user_question: str,sql_result: str,
+    async def SqlResult(self, user_question: str,sql_result: str,current_date_time: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(baml_options).create_http_request_async(function_name="SqlResult", args={
-            "user_question": user_question,"sql_result": sql_result,
+            "user_question": user_question,"sql_result": sql_result,"current_date_time": current_date_time,
         }, mode="stream")
         return result
     async def ValidateToolCalling(self, user_question: str,tools: typing.List[str],description: typing.List[str],user_role: str,

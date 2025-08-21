@@ -32,8 +32,9 @@ async def chat(websocket: WebSocket):
             user_id = uuid.uuid4()
             agent_state = AgentState(user_id)
             memory = agent_state.initialize_memory()
+            current_date_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             memory['user_id'] = user_id
-            memory['date_time'] = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            memory['date_time'] = current_date_time
             memory['user_question'] = user_question
             if user_question.lower() in ["exit", "bye"]:
                 await websocket.send_text("Goodbye! Have a nice day.")
@@ -106,7 +107,7 @@ async def chat(websocket: WebSocket):
                                             await websocket.send_text(error_message)
                                             sql_result = error_message
 
-                                sql_result_brief = await b.SqlResult(user_question, str(sql_result))
+                                sql_result_brief = await b.SqlResult(user_question, str(sql_result), str(current_date_time))
                                 response_to_user = sql_result_brief.response_string
                                 memory['response_to_user'] = response_to_user
 
@@ -136,7 +137,7 @@ async def chat(websocket: WebSocket):
                                 query = text(sql_template).bindparams(bindparam("account_no_list"),bindparam("branch_list")).params(**parameters)
                                 await websocket.send_text("Crunching some numbers! 🔥")
                                 sql_result = execute_query(query)
-                                sql_result_brief = await b.SqlResult(user_question,str(sql_result))
+                                sql_result_brief = await b.SqlResult(user_question,str(sql_result),str(current_date_time))
                                 response_to_user = sql_result_brief.response_string
                                 memory['response_to_user'] = response_to_user
                                 await websocket.send_text("Ah, the classic 'let me rephrase that' moment! 😄")

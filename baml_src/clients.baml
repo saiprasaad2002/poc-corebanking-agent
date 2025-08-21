@@ -20,8 +20,13 @@ client<llm> CustomGPT4oMini {
 client<llm> CustomSonnet {
   provider anthropic
   options {
+    temperature 0.0 
     model "claude-3-5-sonnet-20241022"
     api_key env.ANTHROPIC_API_KEY
+    allowed_role_metadata ["cache_control"]
+    headers{
+      "anthropic-beta" "prompt-caching-2024-07-31"
+    }
   }
 }
 

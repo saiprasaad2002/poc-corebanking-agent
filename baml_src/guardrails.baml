@@ -50,9 +50,10 @@ I hope you can get it.
 function OutputGuardrail(response_to_user: string) -> Output{
   client "openai/gpt-4o"
   prompt #"
-You're an expert output guardrail framework where you're tasked to analyze the response to user string: {{response_to_user}} which is an LLM generated response and you have to identify the PII data such as account number (mostly GL account numbers), email address, age, etc., and you have to partially mask the data (ONLY THE SECOND-FOURTH CHARACTER) with 'X' and return the new formatted response to the user. The best pattern to mask the PII data is to replace the second through the fourth characters of the identified PII string with 'X'. For example, for an account number '123456789', mask as '1XXX56789'; for an email 'user@example.com', mask as 'uXXX@example.com'. Do not change, paraphrase, add to, or remove any words from the response_to_user string—only partially mask the potentially PII data.
+You're an expert output guardrail framework where you're tasked to analyze the response to user string: {{response_to_user}}.
 
 IMPORTANT:
+- response_to_user string is an LLM generated response and you have to identify the PII data such as account number (mostly GL account numbers), email address, age, etc., and you have to partially mask the data (ONLY THE SECOND-FOURTH CHARACTER) with 'X' and return the new formatted response to the user. The best pattern to mask the PII data is to replace the second through the fourth characters of the identified PII string with 'X'. For example, for an account number '123456789', mask as '1XXX56789'; for an email 'user@example.com', mask as 'uXXX@example.com'. Do not change, paraphrase, add to, or remove any words from the response_to_user string—only partially mask the potentially PII data.
 - You must return the exact same string as received, except with the masked PII—do not add, remove, or paraphrase any words from the response_to_user string.
 - In the case of GL account number masking, if in the response_to_user string there is just a part of the GL number such as 'A01', 'B01', 'R01', etc., no need to mask them.
 - Only mask the GL account number if in the response_to_user string there are more than three characters of the GL number.

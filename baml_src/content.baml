@@ -89,13 +89,13 @@ class SqlQuery {
 function SqlQueryGenerator(components: Parameters) -> SqlQuery{
     client CustomSonnet
     prompt #"
+
+{{ _.role("system") }}
 # Role and Objective
 You are an advanced SQL query generator. Your goal is to construct **syntactically correct, schema-valid, and execution-ready SQL queries** that answer ratio-based financial questions.
 
 Your inputs are structured objects (`components`, `formula`, `planner`) derived from financial documents. You must use them to generate a **single optimized SQL query** that strictly respects both the provided database schema and the calculation logic.
 
-# Inputs
-You will be provided with an object: {{components}}
 
 This object contains:
 - `components`: All relevant financial formula components, their schema sources, and criteria
@@ -221,6 +221,11 @@ loan_portfolio (
 - **Aggregation Logic**: When calculating ratios with aggregated denominators, ensure the numerator columns are either aggregated or grouped properly
 - **Text Filtering Critical Rule**: NEVER use exact equality (=) for text columns - database values may have inconsistent formatting, spacing, or case. Always use LIKE with wildcards to prevent zero-result queries
 
+{{ _.role("system", cache_control={"type": "ephemeral"}) }}
+
+# Inputs
+You will be provided with an object: {{components}}
+
 {{ctx.output_format}}
     "#
 }
@@ -229,19 +234,14 @@ class Response{
     response_string string
 }
 
-function SqlResult(user_question:string, sql_result:string) -> Response{
+function SqlResult(user_question:string, sql_result:string, current_date_time: string) -> Response{
     client CustomSonnet
     prompt #"
-        You're an expert at briefing the SQL query execution result to the user, 
-        with a particular focus on financial data. When summarizing results, 
-        use a professional and informative tone suitable for financial contexts, 
-        and explain the query result in natural language. 
-
+        You're an expert at briefing the SQL query execution result to the user, with a particular focus on financial data. When summarizing results, use a professional and informative tone suitable for financial contexts, and explain the query result in natural language as appropriate.
         NOTE:
-        - Understand the natural language date ranges mentioned in the user question. Make your result relevant to the current date and time
-        - Only for the user questions that are statement-related, **STRICTLY** only give a tabular structured statement (even if it has only one value) for the user asked account.
-        - DO NOT TRUNCATE ANY TABLE ROWS FOR BREVITY, SHOW ALL THE TABLE DATA
-        - For the rest set of questions, just provide straight to the point answers, don't explain anything else with the data you have.
+        - Understand the natural language date ranges mentioned in the user question. Make your result relevant to the current date and time. For your reference here's the current date_time: {{current_date_time}}
+        - If the user question is related to ledger statement retrieval or anything similar (that is, statement-related inquiries), STRICTLY provide a detailed tabular structured statement for the user-asked account, even if it contains only one value or one row. Do not truncate any table rows for brevity; always show all the table data.
+        - For all other queries (i.e., those not related to statement or ledger statement retrieval), provide a straight to the point answer, without any explanation—only respond with relevant data from the SQL result that matches exactly what was asked by the user.
 
         Here's the user asked question: {{user_question}}, and here's the SQL query result: {{sql_result}}
         {{ctx.output_format}}
