@@ -249,7 +249,7 @@ function SqlResult(user_question:string, sql_result:string, current_date_time: s
 }
 
 function RectifySqlQuery(sql_query: string, exception_message: string) -> SqlQuery{
-    client "openai/gpt-4o"
+    client CustomSonnet
     prompt #"
         You're a senior database engineer, fluent in SQL at advanced levels. You're tasked to
         rectify an SQL query given to you along with the exception message while executing that
